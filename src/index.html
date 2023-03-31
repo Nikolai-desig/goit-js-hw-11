@@ -1,14 +1,45 @@
 <!DOCTYPE html>
-<html lang="ru">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Page title</title>
-    <link rel="stylesheet" href="./sass/index.scss" />
-    <script type="module" src="./index.js"></script>
-  </head>
-  <body>
-    <!-- ❗️❗️❗️ Add partials like so for every page -->
-    <include src="./partials/example.html"></include>
-  </body>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Homework 11</title>
+  <link rel="stylesheet" href="css/common.css" />
+</head>
+<body class="body">
+  <!-- Форма пошуку -->
+ <div class="form-container">
+    <form class="search-form" id="search-form">
+      <input class="search-input" type="text" name="searchQuery" autocomplete="off" placeholder="Search images..." />
+      <button class="search-button" type="button">🔍</button>
+    </form>
+ </div>
+ <ul class="gallery-box"></ul>
+ <button class="not-visible-button load-more-button">Load more</button>
+
+  <!-- Шаблон для галереї -->
+  <!-- <li class="photo-card">
+    <img class="gallery__image" src="" alt="" loading="lazy" />
+    <div class="info">
+      <p class="info-item">
+        <b>Likes</b>
+      </p>
+      <p class="info-item">
+        <b>Views</b>
+      </p>
+      <p class="info-item">
+        <b>Comments</b>
+      </p>
+      <p class="info-item">
+        <b>Downloads</b>
+      </p>
+    </div>
+  </li> -->
+ <script src="./js/gallery.js" type="module"></script>
+</body>
 </html>
+
+
+
+<!-- <svg class="icon-search" width="20" height="20"><use href="./icon/search.png"></use></svg> -->
