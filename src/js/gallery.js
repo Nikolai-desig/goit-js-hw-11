@@ -22,6 +22,7 @@ function onSearch(e) {
     page = 1;
     refs.galleryBox.innerHTML = '';
     e.preventDefault();
+    totalNumber = 0;
     fetchGallery(refs.searchInput.value, countImages, page)
         .then(response => {
             showSuccessMessage(response.totalHits)
