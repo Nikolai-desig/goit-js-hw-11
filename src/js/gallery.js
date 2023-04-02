@@ -26,19 +26,28 @@ function onSearch(e) {
         .then(response => {
             showSuccessMessage(response.totalHits)
             createGallery(response.hits, response.total, response.totalHits)
-        console.log(response)});
-
+            lightbox.refresh();
+            console.log(response)
+        })
 }
 
 function showSuccessMessage(totalhits) {
-    Notiflix.Notify.success(`Hooray! We found ${totalhits} images.`)
+    if (totalhits > 0) {
+        Notiflix.Notify.success(`Hooray! We found ${totalhits} images.`)
+    };   
 }
 
 function loadMore() {
-        fetchGallery(refs.searchInput.value, countImages, page)
-        .then(response =>
-            createGallery(response.hits, response.total, response.totalHits));
-}
+    fetchGallery(refs.searchInput.value, countImages, page)
+        .then(response => {
+            createGallery(response.hits, response.total, response.totalHits)
+            lightbox.refresh();
+        })
+        // .catch(error => {
+        // refs.loadMoreButton.classList.add('not-visible-button')
+        // Notiflix.Notify.info("We're sorry, but you've reached the end of search results.")
+        // });
+};
 
 function createGallery(images, total, totalhits) {
     if (images.length) {
@@ -50,13 +59,13 @@ function createGallery(images, total, totalhits) {
         Notiflix.Notify.failure('Sorry, there are no images matching your search query. Please try again.');
     };
     
-    if (totalNumber === total) {
+    if (totalNumber === total && totalNumber > 0) {
         refs.loadMoreButton.classList.add('not-visible-button')
         Notiflix.Notify.info("We're sorry, but you've reached the end of search results.")
     }
     const containers = images.map(({ webformatURL, largeImageURL, tags, likes, views, comments, downloads }) => {
         return `
-        <li class="image-item"><img class="gallery__image" srcset="${webformatURL}" alt="${tags}"/>
+        <li class="image-item"><a class="gallery__item" href="${largeImageURL}"><img class="gallery__image" loading="lazy" srcset="${webformatURL}" alt="${tags}"/></a>
         <div class="info">
             <div class="info-item">
                 <b>Likes</b>
@@ -82,5 +91,5 @@ function createGallery(images, total, totalhits) {
     refs.galleryBox.insertAdjacentHTML('beforeend', containers)    
 }
 
-let lightbox = new SimpleLightbox('.gallery__item', { caption: true, captionSelector: 'img[alt]', captionType: 'attr', captionsData: 'alt', captionPosition: 'bottom', captionDelay: 250 });
+const lightbox = new SimpleLightbox('.gallery__item', {captionsData: 'alt', captionDelay: 250 });
 
