@@ -7,7 +7,7 @@ import axios from 'axios';
 const refs = {
     searchField: document.querySelector('.search-form'),
     galleryBox: document.querySelector('.gallery-box'),
-    // searchButton: document.querySelector('.search-button'),
+    searchButton: document.querySelector('.search-button'),
     searchInput: document.querySelector('.search-input'),
     loadMoreButton: document.querySelector('.load-more-button')
 };
@@ -15,8 +15,8 @@ let countImages = 40;
 let page = 1;
 let totalNumber = 0;
 
-refs.searchField.addEventListener('submit', onSearch);
-// refs.searchButton.addEventListener('click', onSearch);
+// refs.searchField.addEventListener('submit', onSearch);
+refs.searchButton.addEventListener('click', onSearch);
 refs.loadMoreButton.addEventListener('click', loadMore);
 
 
@@ -31,15 +31,15 @@ async function renderGallery(name, count, page) {
     }
 }
 
-async function onSearch() {
+async function onSearch(e) {
     page = 1;
     refs.galleryBox.innerHTML = '';
-    evt.preventDefault();
+    e.preventDefault();
     totalNumber = 0;
     try {
         const response = await renderGallery(refs.searchInput.value, countImages, page);
-        showSuccessMessage(response.data.totalHits);
-        createGallery(response.data.hits, response.data.total, response.data.totalHits);
+        showSuccessMessage(response.totalHits);
+        createGallery(response.hits, response.total, response.totalHits);
         lightbox.refresh();
         console.log(response);
     } catch (error) {
@@ -53,16 +53,15 @@ function showSuccessMessage(totalhits) {
     };   
 }
 
-function loadMore() {
-    renderGallery(refs.searchInput.value, countImages, page)
-        .then(response => {
-            createGallery(response.data.hits, response.data.total, response.data.totalHits)
-            lightbox.refresh();
-        })
-        .catch(error => {
-            console.error(error);
-        });
-};
+async function loadMore() {
+    try {
+        const response = await renderGallery(refs.searchInput.value, countImages, page);
+        createGallery(response.hits, response.total, response.totalHits);
+        lightbox.refresh();
+    } catch (error) {
+        console.error(error);
+    }
+}
 
 function createGallery(images, total) {
     if (images.length) {
@@ -103,7 +102,8 @@ function createGallery(images, total) {
     `;
     })
     .join('');
-    refs.galleryBox.insertAdjacentHTML('beforeend', containers)    
+    refs.galleryBox.insertAdjacentHTML('beforeend', containers) 
+    
 }
 
 const lightbox = new SimpleLightbox('.gallery__item', {captionsData: 'alt', captionDelay: 250 });
