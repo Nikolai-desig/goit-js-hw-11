@@ -7,7 +7,7 @@ import axios from 'axios';
 const refs = {
     searchField: document.querySelector('.search-form'),
     galleryBox: document.querySelector('.gallery-box'),
-    searchButton: document.querySelector('.search-button'),
+    // searchButton: document.querySelector('.search-button'),
     searchInput: document.querySelector('.search-input'),
     loadMoreButton: document.querySelector('.load-more-button')
 };
@@ -15,8 +15,8 @@ let countImages = 40;
 let page = 1;
 let totalNumber = 0;
 
-// refs.searchField.addEventListener('submit', onSearch);
-refs.searchButton.addEventListener('click', onSearch);
+refs.searchField.addEventListener('submit', onSearch);
+// refs.searchButton.addEventListener('click', onSearch);
 refs.loadMoreButton.addEventListener('click', loadMore);
 
 
