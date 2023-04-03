@@ -5,7 +5,7 @@ import axios from 'axios';
 
 
 const refs = {
-    searchFieald: document.querySelector('.search-form'),
+    searchField: document.querySelector('.search-form'),
     galleryBox: document.querySelector('.gallery-box'),
     searchButton: document.querySelector('.search-button'),
     searchInput: document.querySelector('.search-input'),
@@ -15,13 +15,13 @@ let countImages = 40;
 let page = 1;
 let totalNumber = 0;
 
-refs.searchButton.addEventListener('click', onSearch);
-refs.loadMoreButton.addEventListener('click', loadMore);
-refs.searchInput.addEventListener('keydown', (e) => {
-    if (e.code === 'Enter') {
-        onSearch(e);
-    }
+refs.searchField.addEventListener('submit', (e) => {
+    e.preventDefault();
+    onSearch();
 });
+// refs.searchButton.addEventListener('click', onSearch);
+refs.loadMoreButton.addEventListener('click', loadMore);
+
 
 async function renderGallery(name, count, page) {
     const URL = `https://pixabay.com/api/?key=34748521-ef54e554dfa85bd6668b4c463&q=${name}&image_type=photo&orientation=horizontal&safesearch=true&per_page=${count}&page=${page}`;
@@ -34,7 +34,7 @@ async function renderGallery(name, count, page) {
     }
 }
 
-async function onSearch(evt) {
+async function onSearch() {
     page = 1;
     refs.galleryBox.innerHTML = '';
     evt.preventDefault();
@@ -67,7 +67,7 @@ function loadMore() {
         });
 };
 
-function createGallery(images, total, totalhits) {
+function createGallery(images, total) {
     if (images.length) {
         refs.loadMoreButton.classList.remove('not-visible-button');
         page += 1;
